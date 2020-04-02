@@ -1,17 +1,113 @@
-# `paip-lisp`
+
 # *Paradigms of Artificial Intelligence Programming* 
 
-![PAIP](https://norvig.com/paip-cover.gif)
+![PAIP](paip-cover.gif)
 
-This is the repository for the book *Paradigms of Artificial
-Intelligence Programming: Case Studies in Common Lisp* by Peter Norvig (1992).  Here you'll find:
+This is an open-source repository for the book *Paradigms of Artificial
+Intelligence Programming: Case Studies in Common Lisp* by Peter Norvig (1992), and the code contained therein.  The copyright has reverted to the author, who has shared it here under MIT license.
 
-- A directory of all the [Lisp code](https://github.com/norvig/paip-lisp/tree/master/lisp) from the book.
-- A `pdf` of the book, split into two parts (because GitHub can't handle big files) covering Chapters 1-14 ([PAIP-part1.pdf](https://github.com/norvig/paip-lisp/blob/master/PAIP-part1.pdf)) and 15-25 ([PAIP-part2.pdf](https://github.com/norvig/paip-lisp/blob/master/PAIP-part2.pdf)). The copyright has recently reverted to me, and I choose to share it under MIT license.
-- A rough `txt` export, from the pdf, [PAIP.txt](https://github.com/norvig/paip-lisp/blob/master/PAIP.txt), containing many errors.
+## The Book
 
-As seen on [TV](https://norvig.com/paip-tv.html). See also: [errata](https://norvig.com/paip-errata.html), [comments](https://norvig.com/paip-comments.html), [preface](https://norvig.com/paip-preface.html), [retrospective](https://norvig.com/Lisp-retro.html).
+The book is available in these formats:
 
+* pdf: [PAIP-part1.pdf](https://github.com/norvig/paip-lisp/blob/master/PAIP-part1.pdf) (Chapters 1-14) and [PAIP-part2.pdf](https://github.com/norvig/paip-lisp/blob/master/PAIP-part2.pdf) (15-25)
+* text: [PAIP.txt](https://github.com/norvig/paip-lisp/blob/master/PAIP.txt) (containing many errors)
+* epub: [PAIP-safari.epub](https://github.com/norvig/paip-lisp/blob/master/PAIP-safari.epub) (much cleaner)
+* and `chapter?.md` markdown files:
+
+# Table of Contents
+
+- **Paradigms of Artificial Intelligence Programming**
+  * [Front matter](docs/frontmatter.md)
+  * [Preface](docs/preface.md)
+- **Part I:  Introduction to Common Lisp**
+  * 1  [Introduction to Lisp](docs/chapter1.md)
+  * 2  [A Simple Lisp Program](docs/chapter2.md)
+  * 3 [Overview of Lisp](docs/chapter3.md)
+- **Part II: Early AI Programs**
+  * 4  [GPS:  The General problem Solver](docs/chapter4.md)
+  * 5  [Eliza:  Dialog with a Machine](docs/chapter5.md)
+  * 6  [Building Software Tools](docs/chapter6.md)
+  * 7 [Student:  Solving Algebra Word Problems](docs/chapter7.md)
+  * 8 [Symbolic Mathematics:  A Simplification Program](docs/chapter8.md)
+- **Part III:  Tools and Techniques**
+  * 9  [Efficiency Issues](docs/chapter9.md)
+  * 10  [Low-Level Efficiency Issues](docs/chapter10.md)
+  * 11  [Logic Programming](docs/chapter11.md)
+  * 12  [Compiling Logic programs](docs/chapter12.md)
+  * 13  [Object-Oriented Programming](docs/chapter13.md)
+  * 14  [Knowledge Representation and Reasoning](docs/chapter14.md)
+- **Part IV:  Advanced AI Programs**
+  * 15  [Symbolic Mathematics with Canonical Forms](docs/chapter15.md)
+  * 16  [Expert Systems](docs/chapter16.md)
+  * 17  [Line-Diagram Labeling by Constraint Satisfaction](docs/chapter17.md)
+  * 18  [Search and the Game of Othello](docs/chapter18.md)
+  * 19  [Introduction to Natural Language](docs/chapter19.md)
+  * 20  [Unification Grammars](docs/chapter20.md)
+  * 21  [A Grammar of English](docs/chapter21.md)
+- **Part V:  The Rest of Lisp**
+  * 22  [Scheme:  An Uncommon Lisp](docs/chapter22.md)
+  * 23  [Compiling Lisp](docs/chapter23.md)
+  * 24  [ANSI Common Lisp](docs/chapter24.md)
+  * 25  [Troubleshooting](docs/chapter25.md)
+  
+As seen on [TV](https://norvig.com/paip-tv.html). See also: [errata](https://norvig.com/paip-errata.html), [comments](https://norvig.com/paip-comments.html),  [retrospective](https://norvig.com/Lisp-retro.html).
+
+## The Lisp Files
+
+The [Lisp code files](https://github.com/norvig/paip-lisp/tree/master/lisp) are listed here:
+
+| CH   | Filename                            | Description                                                            |
+|------|-------------------------------------|------------------------------------------------------------------------|
+| -    | [examples.lisp](lisp/examples.lisp) | A list of example inputs taken from the book                           |
+| -    | [tutor.lisp](lisp/tutor.lisp)       | An interpreter for running the examples                                |
+| -    | [auxfns.lisp](lisp/auxfns.lisp)     | Auxiliary functions; load this before anything else                    |
+| 1    | [intro.lisp](lisp/intro.lisp)       | A few simple definitions                                               |
+| 2    | [simple.lisp](lisp/simple.lisp)     | Random sentence generator (two versions)                               |
+| 3    | [overview.lisp](lisp/overview.lisp) | 14 versions of LENGTH and other examples                               |
+| 4    | [gps1.lisp](lisp/gps1.lisp)         | Simple version of General Problem Solver                               |
+| 4    | [gps.lisp](lisp/gps.lisp)           | Final version of General Problem Solver                                |
+| 5    | [eliza1.lisp](lisp/eliza1.lisp)     | Basic version of Eliza program                                         |
+| 5    | [eliza.lisp](lisp/eliza.lisp)       | Eliza with more rules; different reader                                |
+| 6    | [patmatch.lisp](lisp/patmatch.lisp) | Pattern Matching Utility                                               |
+| 6    | [eliza-pm.lisp](lisp/eliza-pm.lisp) | Version of Eliza using utilities                                       |
+| 6    | [search.lisp](lisp/search.lisp)     | Search Utility                                                         |
+| 6    | [gps-srch.lisp](lisp/gps-srch.lisp) | Version of GPS using the search utility                                |
+| 7    | [student.lisp](lisp/student.lisp)   | The Student Program                                                    |
+| 8    | [macsyma.lisp](lisp/macsyma.lisp)   | The Macsyma Program                                                    |
+| 8    | [macsymar.lisp](lisp/macsymar.lisp) | Simplification and integration rules for Macsyma                       |
+| 9-10 |  &nbsp;                             | (functions from these chapters are in [auxfns.lisp](lisp/auxfns.lisp)) |
+| 11   | [unify.lisp](lisp/unify.lisp)       | Unification functions                                                  |
+| 11   | [prolog1.lisp](lisp/prolog1.lisp)   | First version of Prolog interpreter                                    |
+| 11   | [prolog.lisp](lisp/prolog.lisp)     | Final version of Prolog interpreter                                    |
+| 12   | [prologc1.lisp](lisp/prologc1.lisp) | First version of Prolog compiler                                       |
+| 12   | [prologc2.lisp](lisp/prologc2.lisp) | Second version of Prolog compiler                                      |
+| 12   | [prologc.lisp](lisp/prologc.lisp)   | Final version of Prolog compiler                                       |
+| 12   | [prologcp.lisp](lisp/prologcp.lisp) | Primitives for Prolog compiler                                         |
+| 13   | [clos.lisp](lisp/clos.lisp)         | Some object-oriented and CLOS code                                     |
+| 14   | [krep1.lisp](lisp/krep1.lisp)       | Knowledge Representation code: first version                           |
+| 14   | [krep2.lisp](lisp/krep2.lisp)       | Knowledge Representation code with conjunctions                        |
+| 14   | [krep.lisp](lisp/krep.lisp)         | Final KR code: worlds and attached functions                           |
+| 15   | [cmacsyma.lisp](lisp/cmacsyma.lisp) | Efficient Macsyma with canonical form                                  |
+| 16   | [mycin.lisp](lisp/mycin.lisp)       | The Emycin expert system shell                                         |
+| 16   | [mycin-r.lisp](lisp/mycin-r.lisp)   | Some rules for a medical application of emycin                         |
+| 17   | [waltz.lisp](lisp/waltz.lisp)       | A Line-Labeling program using the Waltz algorithm                      |
+| 18   | [othello.lisp](lisp/othello.lisp)   | The Othello playing program and some strategies                        |
+| 18   | [othello2.lisp](lisp/othello2.lisp) | Additional strategies for Othello                                      |
+| 18   | [edge-tab.lisp](lisp/edge-tab.lisp) | Edge table for Iago strategy                                           |
+| 19   | [syntax1.lisp](lisp/syntax1.lisp)   | Syntactic Parser                                                       |
+| 19   | [syntax2.lisp](lisp/syntax2.lisp)   | Syntactic Parser with semantics                                        |
+| 19   | [syntax3.lisp](lisp/syntax3.lisp)   | Syntactic Parser with semantics and preferences                        |
+| 20   | [unifgram.lisp](lisp/unifgram.lisp) | Unification Parser                                                     |
+| 21   | [grammar.lisp](lisp/grammar.lisp)   | Comprehensive grammar of English                                       |
+| 21   | [lexicon.lisp](lisp/lexicon.lisp)   | Sample Lexicon of English                                              |
+| 22   | [interp1.lisp](lisp/interp1.lisp)   | Scheme interpreter, including version with macros                      |
+| 22   | [interp2.lisp](lisp/interp2.lisp)   | A tail recursive Scheme interpreter                                    |
+| 22   | [interp3.lisp](lisp/interp3.lisp)   | A Scheme interpreter that handles call/cc                              |
+| 23   | [compile1.lisp](lisp/compile1.lisp) | Simple Scheme compiler                                                 |
+| 23   | [compile2.lisp](lisp/compile2.lisp) | Compiler with tail recursion and primitives                            |
+| 23   | [compile3.lisp](lisp/compile3.lisp) | Compiler with peephole optimizer                                       |
+| 23   | [compopt.lisp](lisp/compopt.lisp)   | Peephole optimizers for compile3.lisp                                  |
 
 # Running the Code
 
@@ -30,66 +126,7 @@ or a chapter number or a list of chapter numbers, can be used to see examples
 of the use of various functions.  For example, `(do-examples 1)` shows
 the examples from chapter 1. Access this by doing `(requires "examples")`.
 
-# The Files
+# Other resources
 
-The index below gives the chapter in the book, file
-name, and short description for each file.  
-
-<p>
-<table border=1>
-<tr><td><b><u>CH</u></b> <td><b><u>Filename</u></b><td> <b><u>Description</u></b>
-<tr><td>-  <td><a href="lisp/examples.lisp">examples.lisp</a><td>	A list of example inputs taken from the book
-<tr><td>-  <td><a href="lisp/tutor.lisp">tutor.lisp</a><td>		An interpreter for running the examples
-<tr><td>-  <td><a href="lisp/auxfns.lisp">auxfns.lisp</a><td>		Auxiliary functions; load this before anything else
-<tr><td>1  <td><a href="lisp/intro.lisp">intro.lisp</a><td>		A few simple definitions
-<tr><td>2  <td><a href="lisp/simple.lisp">simple.lisp</a><td>		Random sentence generator (two versions)
-<tr><td>3  <td><a href="lisp/overview.lisp">overview.lisp</a><td>	14 versions of LENGTH and other examples
-<tr><td>4  <td><a href="lisp/gps1.lisp">gps1.lisp</a><td>		Simple version of General Problem Solver
-<tr><td>4  <td><a href="lisp/gps.lisp">gps.lisp</a><td>		Final version of General Problem Solver
-<tr><td>5  <td><a href="lisp/eliza1.lisp">eliza1.lisp</a><td>		Basic version of Eliza program
-<tr><td>5  <td><a href="lisp/eliza.lisp">eliza.lisp</a><td>		Eliza with more rules; different reader
-<tr><td>6  <td><a href="lisp/patmatch.lisp">patmatch.lisp</a><td>	Pattern Matching Utility
-<tr><td>6  <td><a href="lisp/eliza-pm.lisp">eliza-pm.lisp</a><td>	Version of Eliza using utilities
-<tr><td>6  <td><a href="lisp/search.lisp">search.lisp</a><td>		Search Utility
-<tr><td>6  <td><a href="lisp/gps-srch.lisp">gps-srch.lisp</a><td>	Version of GPS using the search utility 
-<tr><td>7  <td><a href="lisp/student.lisp">student.lisp</a><td>		The Student Program
-<tr><td>8  <td><a href="lisp/macsyma.lisp">macsyma.lisp</a><td>		The Macsyma Program
-<tr><td>8  <td><a href="lisp/macsymar.lisp">macsymar.lisp</a><td>	Simplification and integration rules for Macsyma
-<tr><td>9-10	<td> &nbsp; <td>		(functions from these chapters are in <a href="auxfns.lisp">auxfns.lisp</a>)
-<tr><td>11 <td><a href="lisp/unify.lisp">unify.lisp</a><td>		Unification functions
-<tr><td>11 <td><a href="lisp/prolog1.lisp">prolog1.lisp</a><td>		First version of Prolog interpreter
-<tr><td>11 <td><a href="lisp/prolog.lisp">prolog.lisp</a><td>		Final version of Prolog interpreter
-<tr><td>12 <td><a href="lisp/prologc1.lisp">prologc1.lisp</a><td>	First version of Prolog compiler
-<tr><td>12 <td><a href="lisp/prologc2.lisp">prologc2.lisp</a><td>	Second version of Prolog compiler
-<tr><td>12 <td><a href="lisp/prologc.lisp">prologc.lisp</a><td>		Final version of Prolog compiler
-<tr><td>12 <td><a href="lisp/prologcp.lisp">prologcp.lisp</a><td>	Primitives for Prolog compiler
-<tr><td>13 <td><a href="lisp/clos.lisp">clos.lisp</a><td>		Some object-oriented and CLOS code
-<tr><td>14 <td><a href="lisp/krep1.lisp">krep1.lisp</a><td>		Knowledge Representation code: first version 
-<tr><td>14 <td><a href="lisp/krep2.lisp">krep2.lisp</a><td>		Knowledge Representation code with conjunctions
-<tr><td>14 <td><a href="lisp/krep.lisp">krep.lisp</a><td>		Final KR code: worlds and attached functions
-<tr><td>15 <td><a href="lisp/cmacsyma.lisp">cmacsyma.lisp</a><td>	Efficient Macsyma with canonical form
-<tr><td>16 <td><a href="lisp/mycin.lisp">mycin.lisp</a><td>		The Emycin expert system shell
-<tr><td>16 <td><a href="lisp/mycin-r.lisp">mycin-r.lisp</a><td>		Some rules for a medical application of emycin
-<tr><td>17 <td><a href="lisp/waltz.lisp">waltz.lisp</a><td>		A Line-Labeling program using the Waltz algorithm
-<tr><td>18 <td><a href="lisp/othello.lisp">othello.lisp</a><td>		The Othello playing program and some strategies
-<tr><td>18 <td><a href="lisp/othello2.lisp">othello2.lisp</a><td>	Additional strategies for Othello
-<tr><td>18 <td><a href="lisp/edge-tab.lisp">edge-tab.lisp</a><td>	Edge table for Iago strategy
-<tr><td>19 <td><a href="lisp/syntax1.lisp">syntax1.lisp</a><td>		Syntactic Parser
-<tr><td>19 <td><a href="lisp/syntax2.lisp">syntax2.lisp</a><td>		Syntactic Parser with semantics
-<tr><td>19 <td><a href="lisp/syntax3.lisp">syntax3.lisp</a><td>		Syntactic Parser with semantics and preferences
-<tr><td>20 <td><a href="lisp/unifgram.lisp">unifgram.lisp</a><td>	Unification Parser
-<tr><td>21 <td><a href="lisp/grammar.lisp">grammar.lisp</a><td>		Comprehensive grammar of English
-<tr><td>21 <td><a href="lisp/lexicon.lisp">lexicon.lisp</a><td>		Sample Lexicon of English
-<tr><td>22 <td><a href="lisp/interp1.lisp">interp1.lisp</a><td>		Scheme interpreter, including version with macros
-<tr><td>22 <td><a href="lisp/interp2.lisp">interp2.lisp</a><td>		A tail recursive Scheme interpreter
-<tr><td>22 <td><a href="lisp/interp3.lisp">interp3.lisp</a><td>		A Scheme interpreter that handles call/cc
-<tr><td>23 <td><a href="lisp/compile1.lisp">compile1.lisp</a><td>	Simple Scheme compiler
-<tr><td>23 <td><a href="lisp/compile2.lisp">compile2.lisp</a><td>	Compiler with tail recursion and primitives
-<tr><td>23 <td><a href="lisp/compile3.lisp">compile3.lisp</a><td>	Compiler with peephole optimizer
-<tr><td>23 <td><a href="lisp/compopt.lisp">compopt.lisp</a><td>		Peephole optimizers for compile3.lisp
-</table>
-<p>
-<hr>
-<i><a href="http://www.norvig.com">Peter Norvig</a></i>
-
-
+* I wrote a [retrospective](http://norvig.com/Lisp-retro.html) on the book.
+* There is a nice [Python version](https://github.com/dhconnelly/paip-python) of the code, by Georgia Tech.

@@ -18,43 +18,53 @@
   #+Lispworks
   (setq *PACKAGES-FOR-WARN-ON-REDEFINITION* nil)
 
-  #+LCL 
+  #+LCL
    (compiler-options :warnings nil)
-  )
+  #+sbcl
+  (progn
+    (sb-ext:unlock-package '#:common-lisp)
+    (sb-ext:unlock-package '#:common-lisp-user)))
 
 ;;;; REQUIRES
 
 ;;; The function REQUIRES is used in subsequent files to state dependencies
-;;; between files.  The current definition just loads the required files,
-;;; assumming they match the pathname specified in *PAIP-DIRECTORY*.
+;;; between files.  The current definition just loads the required files when it has not yet
+;;; been loaded, assumming they match the pathname specified in *PAIP-DIRECTORY*.
 ;;; You should change that to match where you have stored the files.
-;;; A more sophisticated REQUIRES would only load it if it has not yet
-;;; been loaded, and would search in different directories if needed.
+;;; A more sophisticated REQUIRES would search in different directories if needed.
+
+(defvar *paip-modules* '())
+
+(defvar *paip-files*
+  `("auxfns" "tutor" "examples"
+    "intro" "simple" "overview" "gps1" "gps" "eliza1" "eliza" "patmatch"
+    "eliza-pm" "search" "gps-srch" "student" "macsyma" "macsymar" "unify"
+    "prolog1" "prolog" "prologc1" "prologc2" "prologc" "prologcp"
+    "clos" "krep1" "krep2" "krep" "cmacsyma" "mycin" "mycin-r" "waltz"
+    "othello" "othello2" "syntax1" "syntax2" "syntax3" "unifgram"
+    "grammar" "lexicon" "interp1" "interp2" "interp3"
+    "compile1" "compile2" "compile3" "compopt"))
 
 (defun requires (&rest files)
   "The arguments are files that are required to run an application."
-  (mapc #'load-paip-file files))
-
-(defvar *paip-files*
-  `("auxfns" "tutor" "examples" 
-    "intro" "simple" "overview" "gps1" "gps" "eliza1" "eliza" "patmatch" 
-    "eliza-pm" "search" "gps-srch" "student" "macsyma" "macsymar" "unify" 
-    "prolog1" "prolog" "prologc1" "prologc2" "prologc" "prologcp" 
-    "clos" "krep1" "krep2" "krep" "cmacsyma" "mycin" "mycin-r" "waltz" 
-    "othello" "othello2" "syntax1" "syntax2" "syntax3" "unifgram" 
-    "grammar" "lexicon" "interp1" "interp2" "interp3" 
-    "compile1" "compile2" "compile3" "compopt"))
+  (loop for file in files
+     for name = (string-downcase file)
+     unless (find name *paip-modules* :test 'equal)
+     collect (progn
+               (push name *paip-modules*)
+               (load-paip-file name))))
 
 (defparameter *paip-directory*
   (make-pathname :name nil :type nil
-		 :defaults (or (and (boundp '*load-truename*) *load-truename*)
+		 :defaults (or #.(and (boundp '*compile-file-truename*) *compile-file-truename*)
+			       (and (boundp '*load-truename*) *load-truename*)
 			       (truename ""))) ;;??? Maybe Change this
   "The location of the source files for this book.  If things don't work,
   change it to reflect the location of the files on your computer.")
 
-(defparameter *paip-source* 
+(defparameter *paip-source*
   (make-pathname :name nil :type "lisp" ;;???  Maybe Change this
-		 :defaults *paip-directory*)) 
+		 :defaults *paip-directory*))
 
 (defparameter *paip-binary*
   (make-pathname
@@ -71,7 +81,7 @@
    :defaults *paip-directory*))
 
 (defun paip-pathname (name &optional (type :lisp))
-  (make-pathname :name name 
+  (make-pathname :name name
 		 :defaults (ecase type
 			     ((:lisp :source) *paip-source*)
 			     ((:binary :bin) *paip-binary*))))
@@ -82,17 +92,19 @@
 (defun compile-paip-file (name)
   (let ((path (paip-pathname name :lisp)))
     (load path)
-    (compile-file path :output-file (paip-pathname name :binary))))
+    (compile-file path :output-file (ensure-directories-exist (paip-pathname name :binary)))))
 
 (defun load-paip-file (file)
   "Load the binary file if it exists and is newer, else load the source."
   (let* ((src (paip-pathname file :lisp))
 	 (src-date (file-write-date src))
 	 (bin (paip-pathname file :binary))
-	 (bin-date (file-write-date bin)))
+	 (bin-date (ignore-errors (file-write-date bin)))
+	 (*package* (or (find-package :paip)
+                        *package*)))
     (load (if (and (probe-file bin) src-date bin-date (>= bin-date src-date))
 	      bin
-	    src))))
+              src))))
 
 ;;;; Macros (formerly in auxmacs.lisp: that file no longer needed)
 
@@ -157,7 +169,7 @@
   "Find all those elements of sequence that match item,
   according to the keywords.  Doesn't alter sequence."
   (if test-not
-      (apply #'remove item sequence 
+      (apply #'remove item sequence
              :test-not (complement test-not) keyword-args)
       (apply #'remove item sequence
              :test (complement test) keyword-args)))
@@ -196,15 +208,15 @@
   new-length, if that is longer than the current length."
   (if (and (arrayp array)
            (array-has-fill-pointer-p array))
-      (setf (fill-pointer array) 
+      (setf (fill-pointer array)
             (max (fill-pointer array) new-length))))
 
 ;;; ==============================
 
 ;;; NOTE: In ANSI Common Lisp, the effects of adding a definition (or most
 ;;; anything else) to a symbol in the common-lisp package is undefined.
-;;; Therefore, it would be best to rename the function SYMBOL to something 
-;;; else.  This has not been done (for compatibility with the book).  
+;;; Therefore, it would be best to rename the function SYMBOL to something
+;;; else.  This has not been done (for compatibility with the book).
 
 (defun symbol (&rest args)
   "Concatenate symbols or strings to form an interned symbol"
@@ -225,7 +237,7 @@
   Like mapcon, but uses append instead of nconc."
   (apply #'append (mapcar fn list)))
 
-(defun mklist (x) 
+(defun mklist (x)
   "If x is a list return it, otherwise return the list of x"
   (if (listp x) x (list x)))
 
@@ -233,7 +245,7 @@
   "Get rid of imbedded lists (to one level only)."
   (mappend #'mklist exp))
 
-(defun random-elt (seq) 
+(defun random-elt (seq)
   "Pick a random element out of a sequence."
   (elt seq (random (length seq))))
 
@@ -393,7 +405,7 @@
          "Place a no-longer-needed element back in the pool."
          (vector-push-extend ,name ,resource))
        ,(if (> initial-copies 0)
-            `(mapc #',deallocate (loop repeat ,initial-copies 
+            `(mapc #',deallocate (loop repeat ,initial-copies
                                        collect (,allocate))))
        ',name)))
 
@@ -444,7 +456,7 @@
 
 ;;;; Other:
 
-(defun sort* (seq pred &key key) 
+(defun sort* (seq pred &key key)
   "Sort without altering the sequence"
   (sort (copy-seq seq) pred :key key))
 
@@ -456,7 +468,7 @@
 
 ;;; ==============================
 
-(defun length=1 (x) 
+(defun length=1 (x)
   "Is x a list of length 1?"
   (and (consp x) (null (cdr x))))
 
@@ -549,7 +561,7 @@
        (do-result (i)
          (if (and (vectorp result-sequence)
                   (array-has-fill-pointer-p result-sequence))
-             (setf (fill-pointer result-sequence) 
+             (setf (fill-pointer result-sequence)
                    (max i (fill-pointer result-sequence))))))
       (declare (inline do-one-call))
       ;; Decide if the result is a list or vector,
@@ -686,3 +698,5 @@
                                (funcall-if key (pop seq))))))
              result))))
 )
+
+(pushnew "auxfns" *paip-modules* :test 'equal)
